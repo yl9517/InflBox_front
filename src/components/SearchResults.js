@@ -26,38 +26,50 @@ const SearchResults = ({ results, loading }) => {
       itemLayout="horizontal"
       dataSource={results}
       renderItem={(item) => {
-        const isClicked = clickedItems.has(item.linkUrl); // 클릭된 항목 여부 확인
+        const isClicked = clickedItems.has(item.linkUrl);
 
         return (
           <List.Item
-            onClick={() => handleItemClick(item)} // 클릭 시 해당 항목 상태 추가
+            onClick={() => handleItemClick(item)}
             className={`cursor-pointer rounded-lg transition-colors ${
               isClicked ? "bg-purple-200 text-purple-600" : "hover:bg-gray-100"
-            }`} // 클릭된 항목에 보라색 배경 적용
+            }`}
           >
             <List.Item.Meta
               avatar={
-                item.thumbnail && (
-                  <div
-                    style={{
-                      backgroundImage: `url(${item.thumbnail})`, // 배경으로 이미지 설정
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      width: 128, // 네모 크기
-                      height: 128, // 네모 크기
-                      borderRadius: "8px", // 둥근 모서리 적용
-                    }}
-                  />
-                )
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {item.siteLogo && (
+                    <img
+                      src={item.siteLogo}
+                      alt="Site Logo"
+                      style={{
+                        width: 50,
+                        padding: 10,
+                        objectFit: "cover",
+                      }}
+                    />
+                  )}
+                  {item.thumbnail && (
+                    <div
+                      style={{
+                        backgroundImage: `url(${item.thumbnail})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        width: 128,
+                        height: 128,
+                        borderRadius: "8px",
+                      }}
+                    />
+                  )}
+                </div>
               }
               title={
                 <a
                   href={item.linkUrl}
                   target="_blank" // 새 창으로 열기
                   rel="noopener noreferrer"
-                  className={`font-semibold ${
-                    isClicked ? "text-purple-600 font-light" : "text-blue-600"
-                  }`}
+                  className="text-4xl !text-purple-600 font-semibold"
+                  style={{ fontSize: "20px" }}
                 >
                   {item.title}
                 </a>

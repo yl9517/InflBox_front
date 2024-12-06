@@ -12,7 +12,7 @@ const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-4">
+    <div className="w-full mx-auto p-4">
       <Search
         placeholder="검색어를 입력하세요"
         onSearch={handleSearch}

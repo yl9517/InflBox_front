@@ -27,10 +27,25 @@ const SearchPage = () => {
   };
 
   return (
-    <Layout>
-      <div className="app-container">
+    <Layout style={{ minHeight: "100vh" }}>
+      <div className="app-container" style={{ position: "relative" }}>
         {/* 검색바 컴포넌트 */}
-        <SearchBar onSearch={handleSearch} />
+        <div
+          className="sticky top-0 z-10 shadow-md"
+          style={{
+            zIndex: 10,
+            position: "sticky",
+            top: 0,
+            width: "100%",
+            backgroundColor: "white",
+            padding: "8px", // 검색바 주변에 공간 추가
+            marginBottom: "8px", // 검색바와 아래 내용 사이에 여백 추가
+            borderRadius: "8px", // 둥근 모서리 추가
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // 부드러운 그림자
+          }}
+        >
+          <SearchBar onSearch={handleSearch} />
+        </div>
 
         {/* 검색 결과 컴포넌트 */}
         <SearchResults results={searchResults} loading={loading} />
