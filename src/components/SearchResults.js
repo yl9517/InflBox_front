@@ -84,10 +84,18 @@ const SearchResults = ({ results, loading }) => {
             />
 
             {/* 오른쪽 콘텐츠 */}
-            <div style={{ display: "flex", alignItems: "center" }}>
-              {/* winnerAnnouncementAt 날짜만 표시 */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                marginRight: "20px",
+              }}
+            >
               {item.winnerAnnouncementAt && (
-                <span style={{ marginRight: "16px" }}>
+                <span style={{ marginBottom: "8px", fontWeight: "bold" }}>
                   {
                     new Date(item.winnerAnnouncementAt)
                       .toISOString()
@@ -95,14 +103,13 @@ const SearchResults = ({ results, loading }) => {
                   }
                 </span>
               )}
-              {/* 오른쪽 선 */}
-              <div
-                style={{
-                  width: "1px",
-                  height: "40px",
-                  backgroundColor: "#ccc",
-                }}
-              />
+              {/* applicantCount / capacity */}
+              {item.applicantCount !== undefined &&
+                item.capacity !== undefined && (
+                  <span className="text-sm text-gray-400">
+                    {item.applicantCount} / {item.capacity}
+                  </span>
+                )}
             </div>
           </List.Item>
         );
