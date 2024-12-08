@@ -17,7 +17,7 @@ const SearchPage = () => {
       const response = await searchCampaigns(searchQuery); // API 호출
 
       const results =
-        response.data && response.data.campaings ? response.data.campaings : [];
+        response.data && response.data.campaigns ? response.data.campaigns : [];
       setSearchResults(results);
     } catch (error) {
       console.error("검색 실패", error);

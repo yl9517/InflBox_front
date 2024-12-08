@@ -34,7 +34,13 @@ const SearchResults = ({ results, loading }) => {
             className={`cursor-pointer rounded-lg transition-colors ${
               isClicked ? "bg-purple-200 text-purple-600" : "hover:bg-gray-100"
             }`}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
           >
+            {/* 왼쪽 콘텐츠 */}
             <List.Item.Meta
               avatar={
                 <div style={{ display: "flex", alignItems: "center" }}>
@@ -76,6 +82,28 @@ const SearchResults = ({ results, loading }) => {
               }
               description={<span className="text-gray-500">{item.offer}</span>}
             />
+
+            {/* 오른쪽 콘텐츠 */}
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {/* winnerAnnouncementAt 날짜만 표시 */}
+              {item.winnerAnnouncementAt && (
+                <span style={{ marginRight: "16px" }}>
+                  {
+                    new Date(item.winnerAnnouncementAt)
+                      .toISOString()
+                      .split("T")[0]
+                  }
+                </span>
+              )}
+              {/* 오른쪽 선 */}
+              <div
+                style={{
+                  width: "1px",
+                  height: "40px",
+                  backgroundColor: "#ccc",
+                }}
+              />
+            </div>
           </List.Item>
         );
       }}
