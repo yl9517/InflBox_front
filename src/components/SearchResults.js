@@ -81,7 +81,7 @@ const SearchResults = ({ results, loading }) => {
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                         width: 128,
-                        height: 128,
+                        height: 128, // 세로 크기 고정 (항목 크기를 이미지 크기로 제한)
                         borderRadius: "8px",
                       }}
                     />
@@ -99,7 +99,63 @@ const SearchResults = ({ results, loading }) => {
                   {item.title}
                 </a>
               }
-              description={<span className="text-gray-500">{item.offer}</span>}
+              description={
+                <div>
+                  <span className="text-gray-500">{item.offer}</span>
+                  {/* category, type, platform 추가 */}
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "8px",
+                      marginTop: "8px",
+                    }}
+                  >
+                    {/* platform */}
+                    <span
+                      style={{
+                        backgroundColor: "#E8F6E8",
+                        color: "#2ECC71",
+                        marginTop: "10px",
+                        padding: "4px 8px",
+                        borderRadius: "4px",
+                        fontSize: "10px",
+                      }}
+                    >
+                      {item.platform || "Blog"} {/* 기본값: Blog */}
+                    </span>
+
+                    {/* type */}
+                    <span
+                      style={{
+                        backgroundColor: "#FFF4E6",
+                        color: "#FF8C00",
+                        marginTop: "10px",
+                        padding: "4px 8px",
+                        borderRadius: "4px",
+                        fontSize: "10px",
+                      }}
+                    >
+                      {item.type || "방문"}
+                    </span>
+
+                    {/* category */}
+                    {item.category && (
+                      <span
+                        style={{
+                          backgroundColor: "#EAF2FF",
+                          color: "#007BFF",
+                          marginTop: "10px",
+                          padding: "4px 8px",
+                          borderRadius: "4px",
+                          fontSize: "10px",
+                        }}
+                      >
+                        {item.category}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              }
             />
 
             {/* 오른쪽 콘텐츠 */}
@@ -108,6 +164,7 @@ const SearchResults = ({ results, loading }) => {
                 display: "flex",
                 alignItems: "center",
                 gap: "16px", // 요소 간 간격
+                marginLeft: "15px",
               }}
             >
               {/* 날짜 및 지원자 정보 */}
@@ -157,7 +214,8 @@ const SearchResults = ({ results, loading }) => {
                   width: "40px",
                   height: "40px",
                   backgroundColor: "#f0f0f0",
-                  borderRadius: "50%",
+
+                  borderRadiu: "50%",
                   cursor: "pointer",
                 }}
                 onClick={(e) => {
@@ -168,7 +226,7 @@ const SearchResults = ({ results, loading }) => {
                 <EnvironmentOutlined
                   style={{
                     fontSize: "24px",
-                    color: "#2db7f5",
+                    color: "#1EC800",
                   }}
                 />
               </div>
