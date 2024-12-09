@@ -214,8 +214,7 @@ const SearchResults = ({ results, loading }) => {
                   width: "40px",
                   height: "40px",
                   backgroundColor: "#f0f0f0",
-
-                  borderRadiu: "50%",
+                  borderRadius: "50%",
                   cursor: "pointer",
                 }}
                 onClick={(e) => {
