@@ -24,7 +24,8 @@ const SearchResults = ({ results, loading }) => {
   // 오늘 날짜를 가져오는 함수
   const getTodayDate = () => {
     const today = new Date();
-    return today.toISOString().split("T")[0];
+    const kstToday = new Date(today.getTime() + 9 * 60 * 60 * 1000); // UTC 시간에 9시간 추가
+    return kstToday.toISOString().split("T")[0];
   };
 
   if (loading) {
@@ -42,8 +43,8 @@ const SearchResults = ({ results, loading }) => {
       renderItem={(item) => {
         const isClicked = clickedItems.has(item.linkUrl);
         const isToday =
-          item.winnerAnnouncementAt &&
-          new Date(item.winnerAnnouncementAt).toISOString().split("T")[0] ===
+          item.applicationEndAt &&
+          new Date(item.applicationEndAt).toISOString().split("T")[0] ===
             getTodayDate(); // 오늘인지 확인
 
         return (
@@ -56,7 +57,7 @@ const SearchResults = ({ results, loading }) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              margin: "20px",
+              margin: "5px 20px",
             }}
           >
             {/* 왼쪽 콘텐츠 */}
@@ -177,8 +178,8 @@ const SearchResults = ({ results, loading }) => {
                   fontSize: "18px",
                 }}
               >
-                {/* winnerAnnouncementAt 날짜 */}
-                {item.winnerAnnouncementAt && (
+                {/* applicationEndAt 날짜 */}
+                {item.applicationEndAt && (
                   <span
                     style={{
                       marginBottom: "8px",
@@ -187,7 +188,7 @@ const SearchResults = ({ results, loading }) => {
                     }}
                   >
                     {
-                      new Date(item.winnerAnnouncementAt)
+                      new Date(item.applicationEndAt)
                         .toISOString()
                         .split("T")[0]
                     }
