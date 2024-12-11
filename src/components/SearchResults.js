@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import { List, Spin } from "antd";
-import { EnvironmentOutlined } from "@ant-design/icons"; // 네이버 지도 아이콘 대체
+import { EnvironmentOutlined } from "@ant-design/icons";
 
 const SearchResults = ({ results, loading }) => {
-  const [clickedItems, setClickedItems] = useState(new Set()); // 클릭된 항목을 관리
+  const [clickedItems, setClickedItems] = useState(new Set());
 
   // 클릭 시 호출되는 함수
   const handleItemClick = (item) => {
     setClickedItems((prev) => {
       const newSet = new Set(prev);
-      newSet.add(item.linkUrl); // 클릭된 항목의 linkUrl을 추가
+      newSet.add(item.linkUrl);
       return newSet;
     });
   };
 
   // 네이버 지도 검색 URL 생성 함수
   const getNaverMapUrl = (title) => {
-    const cleanedTitle = title.replace(/\[.*?\]\s*/g, "").trim(); // 대괄호 내용 제거
-    const encodedTitle = encodeURIComponent(cleanedTitle); // 검색어 인코딩
+    const cleanedTitle = title.replace(/\[.*?\]\s*/g, "").trim();
+    const encodedTitle = encodeURIComponent(cleanedTitle);
     return `https://map.naver.com/v5/search/${encodedTitle}`;
   };
 
@@ -27,6 +27,9 @@ const SearchResults = ({ results, loading }) => {
     const kstToday = new Date(today.getTime() + 9 * 60 * 60 * 1000); // UTC 시간에 9시간 추가
     return kstToday.toISOString().split("T")[0];
   };
+
+  // 날짜 유효성 검사 함수
+  const isValidDate = (date) => !isNaN(new Date(date).getTime());
 
   if (loading) {
     return (
@@ -42,10 +45,12 @@ const SearchResults = ({ results, loading }) => {
       dataSource={results}
       renderItem={(item) => {
         const isClicked = clickedItems.has(item.linkUrl);
-        const isToday =
-          item.applicationEndAt &&
-          new Date(item.applicationEndAt).toISOString().split("T")[0] ===
-            getTodayDate(); // 오늘인지 확인
+
+        const applicationEndDate = isValidDate(item.applicationEndAt)
+          ? new Date(item.applicationEndAt).toISOString().split("T")[0]
+          : "유효하지 않은 날짜";
+
+        const isToday = applicationEndDate === getTodayDate();
 
         return (
           <List.Item
@@ -82,7 +87,7 @@ const SearchResults = ({ results, loading }) => {
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                         width: 128,
-                        height: 128, // 세로 크기 고정 (항목 크기를 이미지 크기로 제한)
+                        height: 128,
                         borderRadius: "8px",
                       }}
                     />
@@ -92,7 +97,7 @@ const SearchResults = ({ results, loading }) => {
               title={
                 <a
                   href={item.linkUrl}
-                  target="_blank" // 새 창으로 열기
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-4xl !text-purple-600 font-semibold"
                   style={{ fontSize: "20px" }}
@@ -103,7 +108,6 @@ const SearchResults = ({ results, loading }) => {
               description={
                 <div>
                   <span className="text-gray-500">{item.offer}</span>
-                  {/* category, type, platform 추가 */}
                   <div
                     style={{
                       display: "flex",
@@ -111,7 +115,6 @@ const SearchResults = ({ results, loading }) => {
                       marginTop: "8px",
                     }}
                   >
-                    {/* platform */}
                     <span
                       style={{
                         backgroundColor: "#E8F6E8",
@@ -122,10 +125,8 @@ const SearchResults = ({ results, loading }) => {
                         fontSize: "10px",
                       }}
                     >
-                      {item.platform || "Blog"} {/* 기본값: Blog */}
+                      {item.platform || "Blog"}
                     </span>
-
-                    {/* type */}
                     <span
                       style={{
                         backgroundColor: "#FFF4E6",
@@ -138,8 +139,6 @@ const SearchResults = ({ results, loading }) => {
                     >
                       {item.type || "방문"}
                     </span>
-
-                    {/* category */}
                     {item.category && (
                       <span
                         style={{
@@ -164,11 +163,10 @@ const SearchResults = ({ results, loading }) => {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "16px", // 요소 간 간격
+                gap: "16px",
                 marginLeft: "15px",
               }}
             >
-              {/* 날짜 및 지원자 정보 */}
               <div
                 style={{
                   display: "flex",
@@ -178,23 +176,17 @@ const SearchResults = ({ results, loading }) => {
                   fontSize: "18px",
                 }}
               >
-                {/* applicationEndAt 날짜 */}
                 {item.applicationEndAt && (
                   <span
                     style={{
                       marginBottom: "8px",
                       fontWeight: "bold",
-                      color: isToday ? "red" : "black", // 오늘 날짜는 빨간색
+                      color: isToday ? "red" : "black",
                     }}
                   >
-                    {
-                      new Date(item.applicationEndAt)
-                        .toISOString()
-                        .split("T")[0]
-                    }
+                    {applicationEndDate}
                   </span>
                 )}
-                {/* applicantCount / capacity */}
                 {item.applicantCount !== undefined &&
                   item.capacity !== undefined && (
                     <span className="text-xl text-gray-400">
@@ -203,10 +195,8 @@ const SearchResults = ({ results, loading }) => {
                   )}
               </div>
 
-              {/* 오른쪽 여백 */}
               <div style={{ flexGrow: 1 }} />
 
-              {/* 네이버 지도 아이콘 */}
               <div
                 style={{
                   display: "flex",
@@ -219,7 +209,7 @@ const SearchResults = ({ results, loading }) => {
                   cursor: "pointer",
                 }}
                 onClick={(e) => {
-                  e.stopPropagation(); // 부모 클릭 이벤트 방지
+                  e.stopPropagation();
                   window.open(getNaverMapUrl(item.title), "_blank");
                 }}
               >
