@@ -1,12 +1,12 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:4000/campaign",
+  baseURL: process.env.REACT_APP_API_BASE_URL,
 });
 
 export const searchCampaigns = async (searchQuery) => {
   try {
-    const response = await api.get("/search", {
+    const response = await api.get("/campaign/search", {
       params: { search: searchQuery },
     });
     return response.data;

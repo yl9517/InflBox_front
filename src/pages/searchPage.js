@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
-import { searchCampaigns } from "../api/search"; // API 호출 서비스
+import React, { useState, useRef, useEffect } from "react";
+import { searchCampaigns } from "../api/campaigns"; // API 호출 서비스
 import SearchBar from "../components/SearchBar"; // 검색바 컴포넌트
-import SearchResults from "../components/SearchResults/index";
+import SearchResults from "../components/SearchResults"; // 검색 결과 컴포넌트
 import { Layout } from "antd";
 
 const SearchPage = () => {
